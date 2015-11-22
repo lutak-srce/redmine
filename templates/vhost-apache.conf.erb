@@ -1,0 +1,25 @@
+# Managed by Puppet, module redmine
+<VirtualHost <%= @vhost_name %>:<%= @port %>>
+  ServerName <%= @srvname %>
+<% if @serveradmin -%>
+  ServerAdmin <%= @serveradmin %>
+<% end -%>
+<% if @serveraliases.is_a? Array -%>
+<% @serveraliases.each do |name| -%><%= "  ServerAlias #{name}\n" %><% end -%>
+<% elsif serveraliases != '' -%>
+<%= "  ServerAlias #{serveraliases}" %>
+<% end -%>
+  DocumentRoot <%= @docroot %>
+<% if @directoryindex %>
+  DirectoryIndex <%= @directoryindex %>
+<% end %>
+  <Directory <%= @docroot %>>
+    AllowOverride all
+    Options -MultiViews
+  </Directory>
+ 
+  ErrorLog <%= @logroot %>/<%= @name %>_error.log
+  LogLevel warn
+  CustomLog <%= @logroot %>/<%= @name %>_access.log combined
+  ServerSignature Off
+</VirtualHost>
